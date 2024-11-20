@@ -1,12 +1,14 @@
 {
   inputs = {
     utils.url = "github:numtide/flake-utils";
+    zig.url = "github:mitchellh/zig-overlay";
   };
   outputs =
     {
       self,
       nixpkgs,
       utils,
+      zig,
     }:
     utils.lib.eachDefaultSystem (
       system:
@@ -14,7 +16,11 @@
         pkgs = nixpkgs.legacyPackages.${system};
       in
       {
-        devShell = pkgs.mkShell { buildInputs = with pkgs; [ zig ]; };
+        devShell = pkgs.mkShell {
+          buildInputs = [
+            zig.outputs.packages.${system}.default
+          ];
+        };
       }
     );
 }
