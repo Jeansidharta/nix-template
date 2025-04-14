@@ -12,6 +12,10 @@
           description = "Generic rust template";
           path = ./rust;
         };
+        gleam = {
+          description = "Generic gleam template";
+          path = ./gleam;
+        };
         nodejs = {
           description = "Generic nodejs template";
           path = ./nodejs;
