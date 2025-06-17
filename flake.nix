@@ -20,6 +20,10 @@
           description = "Generic nodejs template";
           path = ./nodejs;
         };
+        neovim-plugin = {
+          description = "Generic neovim plugin template";
+          path = ./neovim-plugin;
+        };
       };
     };
 }

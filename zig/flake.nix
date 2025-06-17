@@ -2,6 +2,11 @@
   inputs = {
     utils.url = "github:numtide/flake-utils";
     zig-flake.url = "github:mitchellh/zig-overlay";
+    zls-flake = {
+      url = "github:zigtools/zls";
+      inputs.zig-overlay.follows = "zig-flake";
+    };
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
   };
   outputs =
     {
@@ -9,6 +14,7 @@
       nixpkgs,
       utils,
       zig-flake,
+      zls-flake,
     }:
     utils.lib.eachDefaultSystem (
       system:
@@ -21,6 +27,8 @@
 
         pkgs = nixpkgs.legacyPackages.${system};
         zig = zig-flake.outputs.packages.${system}.master;
+        zls = zls-flake.outputs.packages.${system}.default;
+
         mkLibsLinkScript = ''
           rm --force libs
           ln -s ${pkgs.linkFarm (project_name + "-deps") deps} libs
@@ -54,6 +62,7 @@
           shellHook = mkLibsLinkScript;
           buildInputs = [
             zig
+            zls
           ];
         };
       }
